@@ -20,6 +20,8 @@ RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get install -y \
         libzip-dev \
         zip \
+        nodejs \
+        npm \
   && docker-php-ext-install zip
 
 RUN apt-get update && apt-get install -y vim
