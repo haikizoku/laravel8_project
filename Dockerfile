@@ -20,16 +20,22 @@ RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get install -y \
         libzip-dev \
         zip \
-        nodejs \
-        npm \
+        nano \
   && docker-php-ext-install zip
 
-RUN apt-get update && apt-get install -y vim
-
+  # Install Node.js
+  RUN curl -sL https://deb.nodesource.com/setup_15.x | bash
+  RUN apt-get install --yes nodejs
+  RUN node -v
+  RUN npm -v
+  RUN npm i -g nodemon
+  RUN nodemon -v
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Cleanup
+RUN apt-get update  && apt-get autoremove -y
 
 #copy apache conf
 COPY ./config-docker/apache/apache.conf /etc/apache2/sites-available/000-default.conf
